@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accueil – N'cho N'chacou Chris</title>
+  <meta name="description" content="Portfolio de N'cho N'chacou Chris, étudiant en licence informatique (réseaux et télécommunications) à l'IIT.">
+  <!-- Tailwind CSS compilé en local (css/tailwind.css) : aucun CDN -->
+  <link rel="stylesheet" href="css/tailwind.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: #020617; }
+    .text-grad { background: linear-gradient(90deg,#3b82f6,#22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    /* Une seule vue à la fois */
+    @keyframes viewIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .view[hidden] { display: none !important; }
+    .view:not([hidden]) { animation: viewIn .55s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+    .fade-load { animation: fadeUp 1s cubic-bezier(.2,.7,.2,1) both; }
+    .d1 { animation-delay: .1s; } .d2 { animation-delay: .45s; } .d3 { animation-delay: .8s; }
+    .caret::after { content: ""; display: inline-block; width: .55em; height: 1em; margin-left: 2px; background: #22d3ee; vertical-align: -0.15em; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    /* CV : repli / dépli */
+    .cv-full { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s cubic-bezier(.2,.7,.2,1); }
+    .cv-full.open { grid-template-rows: 1fr; }
+    .cv-full > div { overflow: hidden; min-height: 0; }
+    .no-scrollbar { scrollbar-width: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      .view:not([hidden]), .fade-load { animation: none; }
+      .caret::after { animation: none; }
+      .cv-full { transition: none; }
+    }
+  </style>
+</head>
+<body class="text-slate-300 antialiased overflow-x-hidden">
+
+  <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[80] focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded">Aller au contenu</a>
+
+  <!-- ===== HEADER ===== -->
+  <header class="fixed top-0 inset-x-0 z-50 px-4 pt-4">
+    <nav aria-label="Navigation principale" class="glass bg-slate-900/40 mx-auto max-w-4xl rounded-full px-5 py-2.5 flex items-center justify-between">
+      <a href="#accueil" class="font-bold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded">N'cho N'chacou Chris</a>
+      <ul class="hidden md:flex items-center gap-1">
+        <li><a class="nav-link" href="#accueil">Accueil</a></li>
+        <li><a class="nav-link" href="#cv">CV</a></li>
+        <li><a class="nav-link" href="#projets">Projets</a></li>
+        <li><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <button id="burger" type="button" class="md:hidden p-2 rounded text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" aria-expanded="false" aria-controls="menu-mobile" aria-label="Ouvrir le menu">
+        <svg id="ico-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="ico-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </nav>
+    <ul id="menu-mobile" class="hidden md:hidden mx-auto max-w-4xl mt-2 rounded-2xl glass bg-slate-900/80 p-2">
+      <li><a class="nav-link block" href="#accueil">Accueil</a></li>
+      <li><a class="nav-link block" href="#cv">CV</a></li>
+      <li><a class="nav-link block" href="#projets">Projets</a></li>
+      <li><a class="nav-link block" href="#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main id="contenu" tabindex="-1" class="focus:outline-none">
+
+    <!-- ===== ACCUEIL (introduction) ===== -->
+    <section id="accueil" class="view relative min-h-screen overflow-hidden flex items-center px-6 pt-28 pb-16" aria-labelledby="titre-accueil">
+      <video id="bg-video" class="absolute inset-0 h-full w-full object-cover opacity-40" autoplay muted loop playsinline poster="videos/fond.jpg" aria-hidden="true" tabindex="-1">
+        <source src="videos/fond.mp4" type="video/mp4">
+      </video>
+      <canvas id="net" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950" aria-hidden="true"></div>
+
+      <div class="relative z-10 mx-auto max-w-6xl w-full grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h1 id="titre-accueil" tabindex="-1" class="fade-load d1 text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight text-white leading-[1.05] break-words focus:outline-none">N'cho N'chacou <span class="block text-grad">Chris</span></h1>
+          <p class="fade-load d2 mt-6 text-xl sm:text-2xl text-blue-200">Étudiant en 2e année de licence informatique</p>
+          <p class="fade-load d2 mt-1 text-slate-400">Réseaux et télécommunications · Institut Ivoirien de Technologie (IIT)</p>
+          <p class="fade-load d3 mt-6 max-w-lg leading-relaxed text-slate-300">Je suis encore en apprentissage : je réalise des projets d'étudiant en Python, HTML / CSS et Flutter pour progresser.</p>
+          <div class="fade-load d3 mt-8 flex flex-wrap gap-3">
+            <a href="#projets" class="btn-primary">Voir mes projets</a>
+            <a href="#cv" class="btn-ghost">Voir mon CV</a>
+          </div>
+        </div>
+
+        <!-- Terminal animé -->
+        <div class="fade-load d3 glass rounded-2xl overflow-hidden shadow-2xl" aria-hidden="true">
+          <div class="flex items-center gap-2 px-4 py-3 bg-black/30">
+            <span class="h-3 w-3 rounded-full bg-red-400"></span><span class="h-3 w-3 rounded-full bg-yellow-300"></span><span class="h-3 w-3 rounded-full bg-green-400"></span>
+            <span class="ml-3 text-xs text-slate-400 font-mono">terminal — chris@iit</span>
+          </div>
+          <pre id="terminal" class="min-h-[15rem] p-5 text-sm sm:text-base font-mono leading-7 text-slate-200 whitespace-pre-wrap break-words"></pre>
+        </div>
+      </div>
+
+      <button id="vid-btn" type="button" aria-pressed="false" class="absolute bottom-6 left-4 sm:left-6 z-20 btn-ghost !px-4 !py-2 text-sm">Mettre la vidéo en pause</button>
+    </section>
+
+    <!-- ===== CV ===== -->
+    <section id="cv" class="view px-6 pt-28 pb-20" hidden aria-labelledby="titre-cv">
+      <div class="mx-auto max-w-5xl">
+        <h2 id="titre-cv" tabindex="-1" class="section-title">Mon CV</h2>
+
+        <article class="glass mt-10 rounded-3xl overflow-hidden">
+          <!-- Partie toujours visible -->
+          <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-6">
+            <img src="images/profil.png" onerror="this.onerror=null;this.src='images/photo.svg'" alt="Portrait de N'cho N'chacou Chris" width="363" height="363" class="h-28 w-28 sm:h-36 sm:w-36 rounded-2xl object-cover object-top ring-2 ring-white/25">
+            <div class="flex-1">
+              <h3 class="text-2xl sm:text-3xl font-bold text-white">N'cho N'chacou Chris</h3>
+              <p class="mt-1 text-blue-300">Étudiant en 2e année de licence informatique</p>
+              <p class="text-sm text-slate-400">Réseaux et télécommunications · IIT</p>
+            </div>
+            <button id="cv-toggle" type="button" aria-expanded="false" aria-controls="cv-full" class="btn-primary self-start sm:self-center">Voir tout le CV</button>
+          </div>
+
+          <!-- Partie dépliable -->
+          <div id="cv-full" class="cv-full" inert>
+            <div>
+              <div class="grid md:grid-cols-3 border-t border-white/10">
+                <aside class="p-6 sm:p-8 bg-white/[0.04] space-y-8">
+                  <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-blue-300">Contact</h4>
+                    <ul class="mt-3 space-y-2 text-sm">
+                      <li><a class="link break-all" href="mailto:nchacou.ncho@iit.ci">nchacou.ncho@iit.ci</a></li>
+                      <li><a class="link" href="https://github.com/Chri5-007" target="_blank" rel="noopener noreferrer">github.com/Chri5-007</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-blue-300">Compétences</h4>
+                    <p class="mt-1 text-xs text-slate-400">Notions en cours d'apprentissage</p>
+                    <ul class="mt-3 flex flex-wrap gap-2" id="skills">
+                      <li class="chip">Python</li><li class="chip">Flutter / Dart</li><li class="chip">HTML / CSS</li>
+                      <li class="chip">C#</li><li class="chip">MySQL</li><li class="chip">SSMS</li>
+                    </ul>
+                  </div>
+                </aside>
+
+                <div class="md:col-span-2 p-6 sm:p-8 space-y-10">
+                  <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-blue-300">Profil</h4>
+                    <p class="mt-3 leading-relaxed">Étudiant en informatique, option réseaux et télécommunications. Je suis encore en apprentissage et je réalise des projets d'étudiant pour progresser.</p>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-blue-300">Formation</h4>
+                    <ol class="mt-4 ml-1.5 space-y-5 border-l border-slate-600">
+                      <li class="relative pl-6"><span class="absolute -left-[5.5px] top-2 h-2.5 w-2.5 rounded-full bg-blue-500"></span>
+                        <h5 class="font-semibold text-white">Licence 2 – Informatique</h5>
+                        <p class="text-sm text-slate-400">Option réseaux et télécommunications · Institut Ivoirien de Technologie (IIT) · en cours</p></li>
+                      <li class="relative pl-6"><span class="absolute -left-[5.5px] top-2 h-2.5 w-2.5 rounded-full bg-blue-500"></span>
+                        <h5 class="font-semibold text-white">Licence 1 – Informatique</h5>
+                        <p class="text-sm text-slate-400">IIT · 2025-2026 <span class="text-slate-500">(date à confirmer)</span></p></li>
+                    </ol>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-blue-300">Projets</h4>
+                    <ul class="mt-4 space-y-3 text-sm">
+                      <li><span class="font-semibold text-white">Yume no Kashi</span> – site vitrine d'une pâtisserie (Bootstrap 5)</li>
+                      <li><span class="font-semibold text-white">Kingdom's Cars</span> – site vitrine d'une concession automobile (Bootstrap 5)</li>
+                      <li><span class="font-semibold text-white">Projet scraping</span> – Python, Selenium, SQLite</li>
+                      <li><span class="font-semibold text-white">Analyse comparative de marché</span> – application console Python</li>
+                      <li><span class="font-semibold text-white">BiblioIIT</span> – application console Python, SQLite</li>
+                    </ul>
+                    <a href="#projets" class="mt-4 inline-block link text-sm">Voir le détail des projets →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== PROJETS ===== -->
+    <section id="projets" class="view px-6 pt-28 pb-20" hidden aria-labelledby="titre-projets">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="titre-projets" tabindex="-1" class="section-title text-center">Mes projets</h2>
+        <p class="mt-3 text-center text-slate-400">Projets d'étudiant, tous disponibles sur GitHub.</p>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-2" role="group" aria-label="Filtrer les projets">
+          <button type="button" class="filtre" data-cat="tous" aria-pressed="true">Tous</button>
+          <button type="button" class="filtre" data-cat="python" aria-pressed="false">Python</button>
+          <button type="button" class="filtre" data-cat="web" aria-pressed="false">Sites web</button>
+        </div>
+        <p id="filtre-info" role="status" class="mt-3 text-center text-sm text-slate-400">5 projets affichés</p>
+
+        <ul id="cards-projets" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <li class="card" data-cat="web">
+            <img src="images/yume.svg" alt="Illustration du site Yume no Kashi : page d'accueil d'une pâtisserie avec un gâteau" width="640" height="360" loading="lazy" class="w-full aspect-video object-cover">
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="text-lg font-bold text-white">Yume no Kashi</h3>
+              <p class="mt-2 text-sm flex-1">Site vitrine d'une pâtisserie, en 5 pages.</p>
+              <ul class="mt-4 flex flex-wrap gap-2"><li class="chip">Bootstrap 5</li><li class="chip">HTML</li><li class="chip">CSS</li></ul>
+              <a href="https://github.com/Chri5-007/Site_Vitrine_D-une_Patisserie" target="_blank" rel="noopener noreferrer" class="mt-5 btn-primary text-center" aria-label="Voir Yume no Kashi sur GitHub">Voir sur GitHub</a>
+            </div>
+          </li>
+          <li class="card" data-cat="web">
+            <img src="images/kingdoms.svg" alt="Illustration du site Kingdom's Cars : page d'accueil d'une concession avec une voiture" width="640" height="360" loading="lazy" class="w-full aspect-video object-cover">
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="text-lg font-bold text-white">Kingdom's Cars</h3>
+              <p class="mt-2 text-sm flex-1">Site vitrine d'une concession automobile.</p>
+              <ul class="mt-4 flex flex-wrap gap-2"><li class="chip">Bootstrap 5</li><li class="chip">HTML</li><li class="chip">CSS</li></ul>
+              <a href="https://github.com/Chri5-007/Site_vitrine_d-un_Concession_Automobile" target="_blank" rel="noopener noreferrer" class="mt-5 btn-primary text-center" aria-label="Voir Kingdom's Cars sur GitHub">Voir sur GitHub</a>
+            </div>
+          </li>
+          <li class="card" data-cat="python">
+            <img src="images/scraping.svg" alt="Illustration du projet de scraping : un terminal qui alimente une base SQLite puis un fichier CSV" width="640" height="360" loading="lazy" class="w-full aspect-video object-cover">
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="text-lg font-bold text-white">Projet scraping</h3>
+              <p class="mt-2 text-sm flex-1">Programme Python qui récupère des produits avec Selenium, les enregistre dans SQLite (colonne url unique) et les exporte en CSV, avec pauses aléatoires et arrêt propre en cas de CAPTCHA.</p>
+              <ul class="mt-4 flex flex-wrap gap-2"><li class="chip">Python</li><li class="chip">Selenium</li><li class="chip">SQLite</li></ul>
+              <a href="https://github.com/Chri5-007/Projet-Scraping" target="_blank" rel="noopener noreferrer" class="mt-5 btn-primary text-center" aria-label="Voir le projet scraping sur GitHub">Voir sur GitHub</a>
+            </div>
+          </li>
+          <li class="card" data-cat="python">
+            <img src="images/analyse.svg" alt="Illustration de l'analyse de marché : graphique comparant les prix de trois boutiques et un panier" width="640" height="360" loading="lazy" class="w-full aspect-video object-cover">
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="text-lg font-bold text-white">Analyse comparative de marché</h3>
+              <p class="mt-2 text-sm flex-1">Application console qui compare les prix de 3 boutiques (CSV, JSON, Excel), calcule un panier au meilleur prix et exporte comparatif.csv, panier.csv et synthese.txt.</p>
+              <ul class="mt-4 flex flex-wrap gap-2"><li class="chip">Python</li></ul>
+              <a href="https://github.com/Chri5-007/Analyse_comparative_de_March-" target="_blank" rel="noopener noreferrer" class="mt-5 btn-primary text-center" aria-label="Voir l'analyse comparative de marché sur GitHub">Voir sur GitHub</a>
+            </div>
+          </li>
+          <li class="card" data-cat="python">
+            <img src="images/biblioiit.svg" alt="Illustration de BiblioIIT : étagère de livres et architecture en couches avec base SQLite" width="640" height="360" loading="lazy" class="w-full aspect-video object-cover">
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="text-lg font-bold text-white">BiblioIIT</h3>
+              <p class="mt-2 text-sm flex-1">Application console de gestion de bibliothèque (livres, lecteurs, prêts, retours), avec SQLite et une architecture en couches (modèles, dépôts, contrôleurs, vues). Base de démo incluse.</p>
+              <ul class="mt-4 flex flex-wrap gap-2"><li class="chip">Python</li><li class="chip">SQLite</li></ul>
+              <a href="https://github.com/Chri5-007/GESTIONNAIRE_DE_BIBLIOTH-QUE" target="_blank" rel="noopener noreferrer" class="mt-5 btn-primary text-center" aria-label="Voir BiblioIIT sur GitHub">Voir sur GitHub</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="view px-6 pt-28 pb-20" hidden aria-labelledby="titre-contact">
+      <div class="mx-auto max-w-5xl">
+        <h2 id="titre-contact" tabindex="-1" class="section-title">Me contacter</h2>
+        <div class="mt-12 grid md:grid-cols-5 gap-8">
+          <form id="form-contact" class="glass md:col-span-3 rounded-2xl p-6 space-y-4">
+            <div><label for="nom" class="block text-sm font-medium text-white mb-1">Nom</label>
+              <input id="nom" name="nom" type="text" required autocomplete="name" class="field"></div>
+            <div><label for="email" class="block text-sm font-medium text-white mb-1">E-mail</label>
+              <input id="email" name="email" type="email" required autocomplete="email" class="field"></div>
+            <div><label for="message" class="block text-sm font-medium text-white mb-1">Message</label>
+              <textarea id="message" name="message" rows="5" required class="field"></textarea></div>
+            <button type="submit" class="btn-primary w-full">Envoyer</button>
+            <p id="form-info" class="text-sm text-slate-400" role="status"></p>
+          </form>
+          <div class="glass md:col-span-2 rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-white">Me trouver</h3>
+            <ul class="mt-4 space-y-3">
+              <li><a class="link break-all" href="mailto:nchacou.ncho@iit.ci">nchacou.ncho@iit.ci</a></li>
+              <li><a class="link" href="https://github.com/Chri5-007" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-6 py-6 border-t border-white/10 bg-slate-950/80 text-sm">
+    <div class="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>© <span id="annee">2026</span> N'cho N'chacou Chris. Tous droits réservés.</p>
+      <a class="link" href="https://github.com/Chri5-007" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="js/jquery.min.js"></script>
+  <script>
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('#annee').text(new Date().getFullYear());
+
+    // ===== Navigation : une seule section affichée à la fois (hash) =====
+    const VUES = { accueil: 'Accueil', cv: 'CV', projets: 'Projets', contact: 'Contact' };
+    let premiere = true;
+    function afficher() {
+      let id = location.hash.slice(1);
+      if (id === 'introduction' || !VUES[id]) id = 'accueil';
+      Object.keys(VUES).forEach(v => { document.getElementById(v).hidden = (v !== id); });
+      $('.nav-link').each(function () {
+        const on = $(this).attr('href') === '#' + id;
+        $(this).toggleClass('active', on);
+        on ? $(this).attr('aria-current', 'page') : $(this).removeAttr('aria-current');
+      });
+      document.title = VUES[id] + " – N'cho N'chacou Chris";
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      if (!premiere) { const t = document.querySelector('#' + id + ' [tabindex="-1"]'); t && t.focus({ preventScroll: true }); }
+      premiere = false;
+      net.actif(id === 'accueil');
+    }
+
+    // ===== Menu burger (jQuery) =====
+    const $burger = $('#burger'), $menu = $('#menu-mobile');
+    function toggleMenu(open) {
+      $menu.toggleClass('hidden', !open);
+      $('#ico-open').toggleClass('hidden', open);
+      $('#ico-close').toggleClass('hidden', !open);
+      $burger.attr({ 'aria-expanded': open, 'aria-label': open ? 'Fermer le menu' : 'Ouvrir le menu' });
+    }
+    $burger.on('click', () => toggleMenu($menu.hasClass('hidden')));
+    $menu.find('a').on('click', () => toggleMenu(false));
+    $(document).on('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+
+    // ===== CV : replier / déplier (jQuery) =====
+    $('#cv-toggle').on('click', function () {
+      const open = $(this).attr('aria-expanded') !== 'true';
+      $(this).attr('aria-expanded', open).text(open ? 'Réduire le CV' : 'Voir tout le CV');
+      $('#cv-full').toggleClass('open', open).prop('inert', !open);
+    });
+
+    // ===== Filtre des projets (jQuery) =====
+    $('.filtre').on('click', function () {
+      const cat = $(this).data('cat');
+      $('.filtre').attr('aria-pressed', 'false');
+      $(this).attr('aria-pressed', 'true');
+      $('#cards-projets > li').each(function () { $(this).toggleClass('hidden', cat !== 'tous' && $(this).data('cat') !== cat); });
+      const n = $('#cards-projets > li:not(.hidden)').length;
+      $('#filtre-info').text(n + (n > 1 ? ' projets affichés' : ' projet affiché'));
+    });
+
+    // ===== Terminal animé (informations connues uniquement) =====
+    (function () {
+      const el = document.getElementById('terminal');
+      const etapes = [
+        ['whoami', "N'cho N'chacou Chris"],
+        ['cat formation.txt', 'Licence 2 informatique\nRéseaux et télécommunications · IIT'],
+        ['ls competences/', 'Python  Flutter/Dart  HTML/CSS  C#  MySQL  SSMS'],
+        ['ls projets/', 'Yume-no-Kashi  Kingdoms-Cars  Scraping\nAnalyse-de-marché  BiblioIIT']
+      ];
+      const complet = etapes.map(([c, o]) => '$ ' + c + '\n' + o).join('\n\n');
+      if (reduce) { el.textContent = complet; return; }
+      let i = 0, texte = '';
+      function frappe(cmd, k, fin) {
+        el.innerHTML = '';
+        el.append(document.createTextNode(texte + '$ ' + cmd.slice(0, k)));
+        const c = document.createElement('span'); c.className = 'caret'; el.append(c);
+        k < cmd.length ? setTimeout(() => frappe(cmd, k + 1, fin), 55) : setTimeout(fin, 350);
+      }
+      function etape() {
+        if (i >= etapes.length) { return setTimeout(() => { i = 0; texte = ''; etape(); }, 4500); }
+        const [cmd, sortie] = etapes[i];
+        frappe(cmd, 0, () => { texte += '$ ' + cmd + '\n' + sortie + '\n\n'; i++; setTimeout(etape, 700); });
+      }
+      etape();
+    })();
+
+    // ===== Réseau animé (fond de l'accueil), piloté par la souris =====
+    const net = (function () {
+      const cv = document.getElementById('net'), ctx = cv.getContext('2d');
+      let W = 0, H = 0, nodes = [], run = false, raf = 0;
+      const ptr = { x: -999, y: -999 };
+      function init() {
+        const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+        if (!r.width) return;
+        W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+        const n = Math.max(28, Math.min(80, Math.round(W / 18)));
+        nodes = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35 }));
+        dessine();
+      }
+      function dessine() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < 130) { ctx.strokeStyle = `rgba(96,165,250,${(1 - d / 130) * .35})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+          }
+          const dp = Math.hypot(a.x - ptr.x, a.y - ptr.y);
+          if (dp < 170) { ctx.strokeStyle = `rgba(34,211,238,${(1 - dp / 170) * .7})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(ptr.x, ptr.y); ctx.stroke(); }
+        }
+        nodes.forEach(n => { ctx.fillStyle = 'rgba(147,197,253,.85)'; ctx.beginPath(); ctx.arc(n.x, n.y, 2.2, 0, 7); ctx.fill(); });
+      }
+      function boucle() {
+        if (!run) return;
+        nodes.forEach(n => {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1;
+          const dx = n.x - ptr.x, dy = n.y - ptr.y, d = Math.hypot(dx, dy);
+          if (d < 110 && d > 0) { n.x += dx / d * 1.2; n.y += dy / d * 1.2; }
+        });
+        dessine(); raf = requestAnimationFrame(boucle);
+      }
+      addEventListener('resize', () => { if (run || !cv.closest('[hidden]')) init(); });
+      addEventListener('mousemove', e => { const r = cv.getBoundingClientRect(); ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top; });
+      return {
+        actif(on) {
+          run = on && !reduce; cancelAnimationFrame(raf);
+          if (on) { init(); if (run) boucle(); }
+        }
+      };
+    })();
+
+    // ===== Vidéo de fond : pause / lecture =====
+    (function () {
+      const v = document.getElementById('bg-video'), b = document.getElementById('vid-btn');
+      function maj() { b.setAttribute('aria-pressed', v.paused); b.textContent = v.paused ? 'Lire la vidéo' : 'Mettre la vidéo en pause'; }
+      if (reduce) v.pause();
+      b.addEventListener('click', () => { v.paused ? v.play().catch(() => {}) : v.pause(); });
+      v.addEventListener('play', maj); v.addEventListener('pause', maj); maj();
+    })();
+
+    // ===== Formulaire : ouvre l'application e-mail =====
+    $('#form-contact').on('submit', function (e) {
+      e.preventDefault();
+      const f = this;
+      const corps = `Nom : ${f.nom.value}\nE-mail : ${f.email.value}\n\n${f.message.value}`;
+      $('#form-info').text("Ouverture de ton application e-mail…");
+      location.href = 'mailto:nchacou.ncho@iit.ci?subject=' + encodeURIComponent('Message depuis le portfolio') + '&body=' + encodeURIComponent(corps);
+    });
+
+    addEventListener('hashchange', afficher);
+    afficher();
+  </script>
+</body>
+</html>
